@@ -1,0 +1,34 @@
+sudo: true
+dist: bionic
+language: go
+go:
+  - 1.x
+env:
+  - "PATH=/home/travis/gopath/bin:$PATH"
+before_install:
+  - sudo apt-get install whois -y
+  - mkdir -p samples
+  - whois google.com > samples/google.com
+  - whois wikipedia.org > samples/wikipedia.org
+  - go mod download
+  - go get -v -u github.com/mattn/goveralls
+  - go test -v -covermode=count -coverprofile=coverage.out
+  - goveralls -ignore=main.go -coverprofile=coverage.out -service=travis-ci -repotoken $COVERALLS_TOKEN
+script:
+  - GOOS=linux GOARCH=amd64 go build
+
+before_deploy:
+  - git config --local user.name "aasaam"
+  - git config --local user.email "info@aasaam.com"
+  - export TRAVIS_TAG=$(date +'%Y%m%d%H%M%S')
+  - git tag $TRAVIS_TAG
+  - GOOS=linux GOARCH=amd64 go build
+  - tar -czf whois-json-linux-amd64.tgz whois-json
+
+deploy:
+  provider: releases
+  api_key: $GITHUB_ACCESS_TOKEN
+  file: "whois-json-linux-amd64.tgz"
+  skip_cleanup: true
+  on:
+    tags: false

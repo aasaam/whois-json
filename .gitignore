@@ -1,0 +1,5 @@
+samples/
+tmp/
+coverage.out
+go.sum
+whois-json
