@@ -30,6 +30,7 @@ Use [releases](https://github.com/aasaam/whois-json/releases) to download latest
 
 ```bash
 ./whois-json json -d github.com
+./whois-json validate -d sub-domain-not-matter.google.com
 ```
 
 ### REST-API
