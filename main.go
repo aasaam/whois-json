@@ -36,6 +36,23 @@ func main() {
 			},
 		},
 		{
+			Name:  "validate",
+			Usage: "validate domain and return domain data",
+			Flags: []cli.Flag{
+				&cli.StringFlag{Name: "domain", Required: true, Aliases: []string{"d"}, Usage: "domain want to check"},
+			},
+			Action: func(c *cli.Context) error {
+				domain := c.String("domain")
+				domainType, e := DomainValidation(domain)
+				if e != nil {
+					return cli.Exit(e, 128)
+				}
+				json, _ := json.Marshal(domainType)
+				fmt.Println(string(json))
+				return nil
+			},
+		},
+		{
 			Name:  "webserver",
 			Usage: "HTTP Server for REST API",
 			Flags: []cli.Flag{

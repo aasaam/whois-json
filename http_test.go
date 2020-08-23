@@ -39,12 +39,28 @@ func TestHTTPSuccessTest(t *testing.T) {
 		t.Errorf("Status must be 400")
 	}
 
-	req = httptest.NewRequest("GET", "/whois/github.com", nil)
+	req = httptest.NewRequest("GET", "/whois/nic.ir", nil)
 	req.SetBasicAuth("user", "pass")
 	resp, _ = app.Test(req)
 
 	if resp.StatusCode != 200 {
 		t.Errorf("Status must be 200")
+	}
+
+	req = httptest.NewRequest("GET", "/validate/nic.ir", nil)
+	req.SetBasicAuth("user", "pass")
+	resp, _ = app.Test(req)
+
+	if resp.StatusCode != 200 {
+		t.Errorf("Status must be 200")
+	}
+
+	req = httptest.NewRequest("GET", "/validate/nic.not-exist", nil)
+	req.SetBasicAuth("user", "pass")
+	resp, _ = app.Test(req)
+
+	if resp.StatusCode != 400 {
+		t.Errorf("Status must be 400")
 	}
 }
 

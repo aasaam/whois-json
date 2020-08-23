@@ -5,7 +5,7 @@ import (
 	"github.com/gofiber/fiber"
 )
 
-func domainValidation(c *fiber.Ctx) {
+func domainWhoIS(c *fiber.Ctx) {
 	domainType, e := DomainValidation(c.Params("domain"))
 	if e != nil || domainType.TLDASCII == "" {
 		err := fiber.NewError(400, e.Error())
@@ -20,6 +20,21 @@ func domainValidation(c *fiber.Ctx) {
 		return
 	}
 	if err := c.JSON(result); err != nil {
+		err := fiber.NewError(500, "Internal Server Error")
+		c.Next(err)
+		return
+	}
+}
+
+func domainValidation(c *fiber.Ctx) {
+	domainType, e := DomainValidation(c.Params("domain"))
+	if e != nil || domainType.TLDASCII == "" {
+		err := fiber.NewError(400, e.Error())
+		c.Next(err)
+		return
+	}
+
+	if err := c.JSON(domainType); err != nil {
 		err := fiber.NewError(500, "Internal Server Error")
 		c.Next(err)
 		return
@@ -58,7 +73,8 @@ func HTTPServer(baseURL string, username string, password string, set404 bool) (
 
 	api := app.Group(baseURL)
 
-	api.Get("/whois/:domain", domainValidation)
+	api.Get("/whois/:domain", domainWhoIS)
+	api.Get("/validate/:domain", domainValidation)
 
 	if set404 {
 		app.Use(func(c *fiber.Ctx) {
