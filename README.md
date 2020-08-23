@@ -20,21 +20,19 @@ Because WhoIs data is raw and we need support structured data.
 
 Use [releases](https://github.com/aasaam/whois-json/releases) to download latest binary
 
-## Requirements
-
-You will need `whois` on your linux distribution. In Ubuntu/Debian you can install by:
-
-```bash
-apt-get install whois
-```
-
 ## Usage
 
 ```bash
 ./whois-json -h
 ```
 
-## REST-API
+### CLI
+
+```bash
+./whois-json json -d github.com
+```
+
+### REST-API
 
 ```bash
 ./whois-json webserver

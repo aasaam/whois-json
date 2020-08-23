@@ -28,7 +28,6 @@ func main() {
 				}
 				result, e := DomainParse(domainType)
 				if e != nil {
-					fmt.Println(e)
 					return cli.Exit(e, 1)
 				}
 				json, _ := json.Marshal(result)

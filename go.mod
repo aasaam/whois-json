@@ -7,6 +7,7 @@ require (
 	github.com/gofiber/basicauth v0.2.2
 	github.com/gofiber/fiber v1.13.3
 	github.com/klauspost/compress v1.10.10 // indirect
+	github.com/likexian/whois-go v1.7.1
 	github.com/likexian/whois-parser-go v1.14.5
 	github.com/stretchr/testify v1.6.1 // indirect
 	github.com/urfave/cli/v2 v2.2.0

@@ -2,10 +2,10 @@ package main
 
 import (
 	"errors"
-	"os/exec"
 	"time"
 
 	"github.com/araddon/dateparse"
+	"github.com/likexian/whois-go"
 	whoisparser "github.com/likexian/whois-parser-go"
 	"golang.org/x/net/idna"
 	"golang.org/x/net/publicsuffix"
@@ -66,7 +66,7 @@ func GetStructureWhoIsData(rawWhoIs string) (result whoisparser.WhoisInfo, err e
 func DomainParse(domainType DomainType) (result WhoIsData, err error) {
 	t := time.Now()
 
-	rawWhoIs, e := exec.Command("whois", domainType.Unicode).Output()
+	rawWhoIs, e := whois.Whois(domainType.ASCII)
 	if e != nil {
 		return WhoIsData{}, e
 	}
