@@ -7,6 +7,7 @@ import (
 
 func domainWhoIS(c *fiber.Ctx) {
 	domainType, e := DomainValidation(c.Params("domain"))
+
 	if e != nil || domainType.TLDASCII == "" {
 		err := fiber.NewError(400, e.Error())
 		c.Next(err)
@@ -19,6 +20,7 @@ func domainWhoIS(c *fiber.Ctx) {
 		c.Next(err)
 		return
 	}
+
 	if err := c.JSON(result); err != nil {
 		err := fiber.NewError(500, "Internal Server Error")
 		c.Next(err)
@@ -46,7 +48,7 @@ func HTTPServer(baseURL string, username string, password string, set404 bool) (
 	app := fiber.New()
 
 	app.Settings.DisableStartupMessage = true
-	app.Settings.Prefork = false
+	app.Settings.Prefork = true
 	app.Settings.UnescapePath = true
 	app.Settings.CaseSensitive = true
 	app.Settings.StrictRouting = false

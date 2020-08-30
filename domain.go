@@ -66,7 +66,7 @@ func GetStructureWhoIsData(rawWhoIs string) (result whoisparser.WhoisInfo, err e
 func DomainParse(domainType DomainType) (result WhoIsData, err error) {
 	t := time.Now()
 
-	rawWhoIs, e := whois.Whois(domainType.ASCII)
+	rawWhoIs, e := whois.Whois(domainType.Unicode)
 	if e != nil {
 		return WhoIsData{}, e
 	}
@@ -99,5 +99,4 @@ func DomainParse(domainType DomainType) (result WhoIsData, err error) {
 	result.Raw = rawWhoIsString
 
 	return result, nil
-
 }
