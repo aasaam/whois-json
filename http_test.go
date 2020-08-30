@@ -53,7 +53,7 @@ func TestHTTPSuccessTest(t *testing.T) {
 func TestHTTPSuccessTest2(t *testing.T) {
 	app, _ := HTTPServer("/", "user", "pass", true)
 
-	domains := []string{"google.com", "github.net", "mozilla.org", "nic.ir", "ایرنیک.ایران"}
+	domains := []string{"google.com", "wikipedia.org", "nic.ir", "ایرنیک.ایران"}
 
 	for _, domain := range domains {
 		req3 := httptest.NewRequest("GET", "/whois/"+url.QueryEscape(domain), nil)
