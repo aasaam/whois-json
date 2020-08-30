@@ -14,7 +14,7 @@ Simple tool for parse and create structured json for domain who is information.
 
 ## Why
 
-Because WhoIs data is raw and we need support structured data.
+Because Whois data is raw and we need support structured data.
 
 ## Download
 
@@ -42,3 +42,13 @@ Use [releases](https://github.com/aasaam/whois-json/releases) to download latest
 ```bash
 curl -s http://username:password@localhost:9000/whois/example.com | jq
 ```
+
+## Thanks
+
+Thanks to [Li Kexian](https://github.com/likexian) and others that help to build this tool.
+
+* [whois-go](https://github.com/likexian/whois-go)
+* [whois-parser-go](https://github.com/likexian/whois-parser-go)
+* [dateparse](github.com/araddon/dateparse)
+* [urfave/cli](github.com/urfave/cli/v2)
+* [gofiber](github.com/gofiber/fiber)

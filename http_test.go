@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"fmt"
 	"net/http/httptest"
+	"net/url"
 	"strings"
 	"testing"
 
@@ -55,7 +56,7 @@ func TestHTTPSuccessTest2(t *testing.T) {
 	domains := []string{"google.com", "github.net", "mozilla.org", "nic.ir", "ایرنیک.ایران"}
 
 	for _, domain := range domains {
-		req3 := httptest.NewRequest("GET", "/whois/"+domain, nil)
+		req3 := httptest.NewRequest("GET", "/whois/"+url.QueryEscape(domain), nil)
 		req3.SetBasicAuth("user", "pass")
 		resp3, err3 := app.Test(req3)
 		if err3 != nil {
