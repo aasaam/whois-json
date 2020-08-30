@@ -49,6 +49,6 @@ Thanks to [Li Kexian](https://github.com/likexian) and others that help to build
 
 * [whois-go](https://github.com/likexian/whois-go)
 * [whois-parser-go](https://github.com/likexian/whois-parser-go)
-* [dateparse](github.com/araddon/dateparse)
-* [urfave/cli](github.com/urfave/cli/v2)
-* [gofiber](github.com/gofiber/fiber)
+* [dateparse](https://github.com/araddon/dateparse)
+* [urfave/cli](https://github.com/urfave/cli/v2)
+* [gofiber](https://github.com/gofiber/fiber)
