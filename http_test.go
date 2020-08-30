@@ -59,6 +59,9 @@ func TestHTTPSuccessTest2(t *testing.T) {
 		req3 := httptest.NewRequest("GET", "/whois/"+url.QueryEscape(domain), nil)
 		req3.SetBasicAuth("user", "pass")
 		resp3, err3 := app.Test(req3)
+		fmt.Println("=====")
+		fmt.Println(domain)
+		fmt.Println(err3)
 		if err3 != nil {
 			if !strings.Contains(err3.Error(), "timeout") {
 				t.Error(err3)

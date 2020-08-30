@@ -1,8 +1,6 @@
 package main
 
 import (
-	"fmt"
-
 	"github.com/gofiber/basicauth"
 	"github.com/gofiber/fiber"
 )
@@ -15,8 +13,6 @@ func domainWhoIS(c *fiber.Ctx) {
 		c.Next(err)
 		return
 	}
-
-	fmt.Println(c.Params("domain"))
 
 	result, e := DomainParse(domainType)
 	if e != nil {
