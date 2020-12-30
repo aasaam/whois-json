@@ -7,7 +7,7 @@ import (
 	"net/url"
 	"testing"
 
-	"github.com/gofiber/fiber"
+	"github.com/gofiber/fiber/v2"
 )
 
 func TestHTTPBasicAuthFailed(t *testing.T) {
@@ -75,13 +75,12 @@ func TestHTTPSuccessTest2(t *testing.T) {
 func TestHTTPBasicAuthSuccess(t *testing.T) {
 	app, api := HTTPServer("/base", "user", "pass", false)
 
-	api.Get("/ok", func(c *fiber.Ctx) {
-		c.Send("OK")
+	api.Get("/ok", func(c *fiber.Ctx) error {
+		return c.SendString("OK")
 	})
 
-	api.Get("/error", func(c *fiber.Ctx) {
-		err := fiber.NewError(500, "This is an error")
-		c.Next(err)
+	api.Get("/error", func(c *fiber.Ctx) error {
+		return fiber.ErrInternalServerError
 	})
 
 	req := httptest.NewRequest("GET", "/base/ok", nil)

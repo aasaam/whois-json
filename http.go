@@ -1,59 +1,68 @@
 package main
 
 import (
-	"github.com/gofiber/basicauth"
-	"github.com/gofiber/fiber"
+	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/basicauth"
 )
 
-func domainWhoIS(c *fiber.Ctx) {
+func domainWhoIS(c *fiber.Ctx) error {
 	domainType, e := DomainValidation(c.Params("domain"))
 
 	if e != nil || domainType.TLDASCII == "" {
-		err := fiber.NewError(400, e.Error())
-		c.Next(err)
-		return
+		return fiber.ErrBadRequest
 	}
 
 	result, e := DomainParse(domainType)
 	if e != nil {
-		err := fiber.NewError(500, e.Error())
-		c.Next(err)
-		return
+		return fiber.ErrInternalServerError
 	}
 
 	if err := c.JSON(result); err != nil {
-		err := fiber.NewError(500, "Internal Server Error")
-		c.Next(err)
-		return
+		return fiber.ErrInternalServerError
 	}
+
+	return nil
 }
 
-func domainValidation(c *fiber.Ctx) {
+func domainValidation(c *fiber.Ctx) error {
 	domainType, e := DomainValidation(c.Params("domain"))
 	if e != nil || domainType.TLDASCII == "" {
-		err := fiber.NewError(400, e.Error())
-		c.Next(err)
-		return
+		return fiber.ErrBadRequest
 	}
 
 	if err := c.JSON(domainType); err != nil {
-		err := fiber.NewError(500, "Internal Server Error")
-		c.Next(err)
-		return
+		return fiber.ErrInternalServerError
 	}
+
+	return nil
 }
 
 // HTTPServer return http server
 func HTTPServer(baseURL string, username string, password string, set404 bool) (application *fiber.App, router fiber.Router) {
-	app := fiber.New()
+	app := fiber.New(fiber.Config{
+		DisableStartupMessage: true,
+		Prefork:               true,
+		UnescapePath:          true,
+		CaseSensitive:         true,
+		StrictRouting:         true,
+		BodyLimit:             1 * 1024,
+		ServerHeader:          "aasaam-whois-json",
 
-	app.Settings.DisableStartupMessage = true
-	app.Settings.Prefork = true
-	app.Settings.UnescapePath = true
-	app.Settings.CaseSensitive = true
-	app.Settings.StrictRouting = false
-	app.Settings.BodyLimit = 1 * 1024
-	app.Settings.ServerHeader = "aasaam"
+		ErrorHandler: func(ctx *fiber.Ctx, err error) error {
+			// Statuscode defaults to 500
+			code := fiber.StatusInternalServerError
+
+			// Retreive the custom statuscode if it's an fiber.*Error
+			if e, ok := err.(*fiber.Error); ok {
+				code = e.Code
+			}
+
+			ctx.Set(fiber.HeaderContentType, fiber.MIMETextPlainCharsetUTF8)
+			ctx.Status(code).SendString(err.Error())
+
+			return nil
+		},
+	})
 
 	app.Use(basicauth.New(basicauth.Config{
 		Users: map[string]string{
@@ -61,27 +70,14 @@ func HTTPServer(baseURL string, username string, password string, set404 bool) (
 		},
 	}))
 
-	app.Settings.ErrorHandler = func(ctx *fiber.Ctx, err error) {
-		code := fiber.StatusInternalServerError
-
-		if e, ok := err.(*fiber.Error); ok {
-			code = e.Code
-		}
-
-		// Return HTTP response
-		ctx.Set(fiber.HeaderContentType, fiber.MIMETextPlainCharsetUTF8)
-		ctx.Status(code).SendString(err.Error())
-	}
-
 	api := app.Group(baseURL)
 
 	api.Get("/whois/:domain", domainWhoIS)
 	api.Get("/validate/:domain", domainValidation)
 
 	if set404 {
-		app.Use(func(c *fiber.Ctx) {
-			c.Set(fiber.HeaderContentType, fiber.MIMETextPlainCharsetUTF8)
-			c.Status(404).SendString("Not found: " + c.OriginalURL())
+		app.Use(func(c *fiber.Ctx) error {
+			return fiber.ErrNotFound
 		})
 	}
 

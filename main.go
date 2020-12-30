@@ -56,10 +56,10 @@ func main() {
 			Name:  "webserver",
 			Usage: "HTTP Server for REST API",
 			Flags: []cli.Flag{
-				&cli.StringFlag{Name: "port", Aliases: []string{"p"}, EnvVars: []string{"AASAAM_WEBSERVER_PORT"}, Value: "9000", DefaultText: "9000", Usage: "HTTP port want to listen"},
-				&cli.StringFlag{Name: "base-url", Aliases: []string{"b"}, EnvVars: []string{"AASAAM_WEBSERVER_BASEURL"}, Value: "/", DefaultText: "/", Usage: "Base URL to serve HTTP endpoints"},
-				&cli.StringFlag{Name: "username", Aliases: []string{"user"}, EnvVars: []string{"AASAAM_WEBSERVER_BASIC_USERNAME"}, Value: "username", DefaultText: "username", Usage: "Basic auth username"},
-				&cli.StringFlag{Name: "password", Aliases: []string{"pass"}, EnvVars: []string{"AASAAM_WEBSERVER_BASIC_PASSWORD"}, Value: "password", DefaultText: "password", Usage: "Basic auth password"},
+				&cli.StringFlag{Name: "listen", Aliases: []string{"l"}, EnvVars: []string{"ASM_WS_LISTEN"}, Value: ":9000", DefaultText: ":9000", Usage: "HTTP address/port want to listen"},
+				&cli.StringFlag{Name: "base-url", Aliases: []string{"b"}, EnvVars: []string{"ASM_WS_BASEURL"}, Value: "/", DefaultText: "/", Usage: "Base URL to serve HTTP endpoints"},
+				&cli.StringFlag{Name: "username", Aliases: []string{"user"}, EnvVars: []string{"ASM_WS_BASIC_USERNAME"}, Value: "username", DefaultText: "username", Usage: "Basic auth username"},
+				&cli.StringFlag{Name: "password", Aliases: []string{"pass"}, EnvVars: []string{"ASM_WS_BASIC_PASSWORD"}, Value: "password", DefaultText: "password", Usage: "Basic auth password"},
 			},
 			Action: func(c *cli.Context) error {
 				app, _ := HTTPServer(
@@ -69,7 +69,7 @@ func main() {
 					true,
 				)
 
-				app.Listen(c.Int("port"))
+				app.Listen(c.String("listen"))
 				return nil
 			},
 		},
