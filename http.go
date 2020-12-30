@@ -49,10 +49,8 @@ func HTTPServer(baseURL string, username string, password string, set404 bool) (
 		ServerHeader:          "aasaam-whois-json",
 
 		ErrorHandler: func(ctx *fiber.Ctx, err error) error {
-			// Statuscode defaults to 500
 			code := fiber.StatusInternalServerError
 
-			// Retreive the custom statuscode if it's an fiber.*Error
 			if e, ok := err.(*fiber.Error); ok {
 				code = e.Code
 			}
