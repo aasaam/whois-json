@@ -15,14 +15,14 @@ before_install:
   - go test -v -covermode=count -coverprofile=coverage.out
   - goveralls -ignore=main.go -coverprofile=coverage.out -service=travis-ci -repotoken $COVERALLS_TOKEN
 script:
-  - GOOS=linux GOARCH=amd64 go build
+  - GOOS=linux GOARCH=amd64 go build -ldflags '-w'
 
 before_deploy:
   - git config --local user.name "aasaam"
   - git config --local user.email "info@aasaam.com"
   - export TRAVIS_TAG=$(date +'%Y%m%d%H%M%S')
   - git tag $TRAVIS_TAG
-  - GOOS=linux GOARCH=amd64 go build
+  - GOOS=linux GOARCH=amd64 go build -ldflags '-w'
   - tar -czf whois-json-linux-amd64.tgz whois-json
 
 deploy:
