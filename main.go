@@ -1,3 +1,4 @@
+//!test
 package main
 
 import (
@@ -9,8 +10,12 @@ import (
 	"github.com/urfave/cli/v2"
 )
 
+// Version is build time argument version
+var Version = "development"
+
 func main() {
 	app := cli.NewApp()
+	app.Version = Version
 	app.Usage = "whois-json"
 	app.EnableBashCompletion = true
 	app.Commands = []*cli.Command{

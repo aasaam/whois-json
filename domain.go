@@ -5,8 +5,8 @@ import (
 	"time"
 
 	"github.com/araddon/dateparse"
-	"github.com/likexian/whois-go"
-	whoisparser "github.com/likexian/whois-parser-go"
+	"github.com/likexian/whois"
+	whoisparser "github.com/likexian/whois-parser"
 	"golang.org/x/net/idna"
 	"golang.org/x/net/publicsuffix"
 )

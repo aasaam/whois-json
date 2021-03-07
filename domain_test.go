@@ -3,9 +3,6 @@ package main
 import (
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
-	"os"
-	"path/filepath"
 	"testing"
 )
 
@@ -43,18 +40,6 @@ func TestDomainValidationNotValid(t *testing.T) {
 	}
 }
 
-func TestGetStructureWhoIsData(t *testing.T) {
-	filepath.Walk("./samples", func(path string, info os.FileInfo, err error) error {
-		if !info.IsDir() {
-			content, _ := ioutil.ReadFile(path)
-			_, e := GetStructureWhoIsData(string(content))
-			if e != nil {
-				t.Error(e)
-			}
-		}
-		return nil
-	})
-}
 func TestGetStructureWhoIsDataNotValid(t *testing.T) {
 	_, e := GetStructureWhoIsData("AAA")
 	if e == nil {
@@ -62,7 +47,7 @@ func TestGetStructureWhoIsDataNotValid(t *testing.T) {
 	}
 }
 func TestDomainParse(t *testing.T) {
-	domainType, _ := DomainValidation("www.google.com")
+	domainType, _ := DomainValidation("www.nic.ir")
 	result, e := DomainParse(domainType)
 	if e != nil {
 		t.Error(e)
