@@ -23,8 +23,6 @@ jobs:
         run: |
           export CI=1
           go get -u -v golang.org/x/lint/golint
-          go get -u -v github.com/mattn/goveralls
           go mod download
           golint .
-          go test -v -covermode=count -coverprofile=coverage.out
-          goveralls -ignore=domain_whois.go,http_whois.go,main.go -coverprofile=coverage.out -repotoken ${{ secrets.COVERALLS_TOKEN }}
+          go test -v -covermode=count -coverprofile=coverage.txt
