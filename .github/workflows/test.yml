@@ -27,4 +27,4 @@ jobs:
           go mod download
           golint .
           go test -v -covermode=count -coverprofile=coverage.out
-          goveralls -ignore=domain_whois.go -ignore=http_whois.go -coverprofile=coverage.out -repotoken $COVERALLS_TOKEN
+          goveralls -ignore=domain_whois.go -ignore=http_whois.go -coverprofile=coverage.out -repotoken ${{ secrets.COVERALLS_TOKEN }}
