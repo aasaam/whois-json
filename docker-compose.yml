@@ -1,0 +1,13 @@
+# Copyright (c) 2021 aasaam software development group
+version: '3'
+
+services:
+  whois-json:
+    container_name: whois-json
+    image: aasaam/whois-json
+    environment:
+      ASM_WS_LISTEN: ${ASM_WS_LISTEN:-0.0.0.0:9000}
+      ASM_WS_BASEURL: ${ASM_WS_BASEURL:-/}
+      ASM_WS_BASIC_USERNAME: ${ASM_WS_BASIC_USERNAME:-username}
+      ASM_WS_BASIC_PASSWORD: ${ASM_WS_BASIC_PASSWORD:-password}
+    restart: unless-stopped
