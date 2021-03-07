@@ -8,23 +8,6 @@ on:
 
 name: run tests
 jobs:
-  lint:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Install Go
-        uses: actions/setup-go@v2
-        with:
-          go-version: 1.16.x
-      - name: Checkout code
-        uses: actions/checkout@v2
-      - name: Golang module init and download
-        run: |
-          go mod download
-          go mod tidy
-          go generate ./...
-      - name: Run linters
-        uses: golangci/golangci-lint-action@v2
-
   test:
     strategy:
       matrix:
@@ -44,6 +27,7 @@ jobs:
           go mod download
           go mod tidy
           go generate ./...
+          golint
       - name: Run tests
         run: go test -v -covermode=count
 
