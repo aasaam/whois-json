@@ -3,7 +3,7 @@
     Whois JSON
   </h1>
   <p>
-    Simple tool for parse and create structured json for domain who is information.
+    Simple tool for validate, parse and create structured JSON for domain whois information
   </p>
   <p>
     <a href="https://gitlab.com/aasaam/whois-json/-/pipelines"><img alt="CI Pipeline" src="https://gitlab.com/aasaam/whois-json/badges/master/pipeline.svg"></a>
