@@ -7,7 +7,7 @@ RUN cd /src \
   && go mod download \
   && golint . \
   && export CI=1 \
-  && go test -covermode=count -coverprofile=coverage.tmp.out \
+  && go test -covermode=count -coverprofile=coverage.out \
   && cat coverage.out | grep -v "http_whois.go" | grep -v "domain_whois.go" | grep -v "main.go" > coverage.txt \
   && TOTAL_COVERAGE_FOR_CI_F=$(go tool cover -func coverage.txt | grep total | grep -Eo '[0-9]+.[0-9]+') \
   && echo "TOTAL_COVERAGE_FOR_CI_F: $TOTAL_COVERAGE_FOR_CI_F" \
