@@ -5,40 +5,12 @@ import (
 	"github.com/gofiber/fiber/v2/middleware/basicauth"
 )
 
-func domainWhoIS(c *fiber.Ctx) error {
-	domainType, e := DomainValidation(c.Params("domain"))
-
-	if e != nil || domainType.TLDASCII == "" {
-		return fiber.ErrBadRequest
-	}
-
-	result, e := DomainParse(domainType)
-	if e != nil {
-		return fiber.ErrInternalServerError
-	}
-
-	if err := c.JSON(result); err != nil {
-		return fiber.ErrInternalServerError
-	}
-
-	return nil
-}
-
-func domainValidation(c *fiber.Ctx) error {
-	domainType, e := DomainValidation(c.Params("domain"))
-	if e != nil || domainType.TLDASCII == "" {
-		return fiber.ErrBadRequest
-	}
-
-	if err := c.JSON(domainType); err != nil {
-		return fiber.ErrInternalServerError
-	}
-
-	return nil
-}
-
 // HTTPServer return http server
-func HTTPServer(baseURL string, username string, password string, set404 bool) (application *fiber.App, router fiber.Router) {
+func HTTPServer(
+	baseURL string,
+	username string,
+	password string,
+) (application *fiber.App, router fiber.Router) {
 	app := fiber.New(fiber.Config{
 		DisableStartupMessage: true,
 		Prefork:               true,
@@ -70,14 +42,8 @@ func HTTPServer(baseURL string, username string, password string, set404 bool) (
 
 	api := app.Group(baseURL)
 
-	api.Get("/whois/:domain", domainWhoIS)
-	api.Get("/validate/:domain", domainValidation)
-
-	if set404 {
-		app.Use(func(c *fiber.Ctx) error {
-			return fiber.ErrNotFound
-		})
-	}
+	api.Get("/whois/:domain", HTTPDomainWhois)
+	api.Get("/validate/:domain", HTTPDomainValidation)
 
 	return app, api
 }

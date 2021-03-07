@@ -9,48 +9,22 @@ on:
 name: run tests
 jobs:
   test:
-    strategy:
-      matrix:
-        go-version: [1.16.x]
-        platform: [ubuntu-latest]
-    runs-on: ${{ matrix.platform }}
-    steps:
-      - name: Install Go
-        if: success()
-        uses: actions/setup-go@v2
-        with:
-          go-version: ${{ matrix.go-version }}
-      - name: Checkout code
-        uses: actions/checkout@v2
-      - name: Golang module init and download
-        run: |
-          go mod download
-          go mod tidy
-          go generate ./...
-          golint
-      - name: Run tests
-        run: go test -v -covermode=count
-
-  coverage:
     runs-on: ubuntu-latest
     steps:
-      - name: Install Go
-        if: success()
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: Set up Go
         uses: actions/setup-go@v2
         with:
-          go-version: 1.16.x
-      - name: Checkout code
-        uses: actions/checkout@v2
-      - name: Calc coverage
+          go-version: 1.16
+      - name: Golang module init and download
         run: |
+          export CI=1
+          go get -u -v golang.org/x/lint/golint
+          go get -u -v github.com/mattn/goveralls
           go mod download
-          go mod tidy
-          go generate ./...
+          golint .
           go test -v -covermode=count -coverprofile=coverage.out
-      - name: Convert coverage.out to coverage.lcov
-        uses: jandelgado/gcov2lcov-action@v1.0.6
-      - name: Coveralls
-        uses: coverallsapp/github-action@v1.1.2
-        with:
-          github-token: ${{ secrets.github_token }}
-          path-to-lcov: coverage.lcov
+          goveralls -ignore=domain_whois.go -ignore=http_whois.go -coverprofile=coverage.out -repotoken $COVERALLS_TOKEN

@@ -1,5 +1,7 @@
 dist/
+samples/
 tmp/
 coverage.out
+coverage.txt
 go.sum
 whois-json

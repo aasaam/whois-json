@@ -11,7 +11,7 @@ import (
 )
 
 func TestHTTPBasicAuthFailed(t *testing.T) {
-	app, _ := HTTPServer("/", "user", "pass", true)
+	app, _ := HTTPServer("/", "user", "pass")
 
 	req := httptest.NewRequest("GET", "/", nil)
 
@@ -22,7 +22,7 @@ func TestHTTPBasicAuthFailed(t *testing.T) {
 }
 
 func TestHTTPSuccessTest(t *testing.T) {
-	app, _ := HTTPServer("/", "user", "pass", true)
+	app, _ := HTTPServer("/", "user", "pass")
 
 	req1 := httptest.NewRequest("GET", "/not-found", nil)
 	req1.SetBasicAuth("user", "pass")
@@ -50,7 +50,8 @@ func TestHTTPSuccessTest(t *testing.T) {
 }
 
 func TestHTTPSuccessTest2(t *testing.T) {
-	app, _ := HTTPServer("/", "user", "pass", true)
+	skipCI(t)
+	app, _ := HTTPServer("/", "user", "pass")
 
 	domains := []string{"google.com", "wikipedia.org", "nic.ir", "ایرنیک.ایران"}
 
@@ -73,7 +74,7 @@ func TestHTTPSuccessTest2(t *testing.T) {
 }
 
 func TestHTTPBasicAuthSuccess(t *testing.T) {
-	app, api := HTTPServer("/base", "user", "pass", false)
+	app, api := HTTPServer("/base", "user", "pass")
 
 	api.Get("/ok", func(c *fiber.Ctx) error {
 		return c.SendString("OK")
