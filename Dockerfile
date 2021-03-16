@@ -19,4 +19,3 @@ FROM scratch
 COPY --from=builder /src/whois-json /usr/bin/whois-json
 
 ENTRYPOINT ["/usr/bin/whois-json"]
-
