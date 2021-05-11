@@ -14,7 +14,6 @@ before_script:
   - docker login --username=$DOCKER_HUB_USER --password=$DOCKER_HUB_PASS
   - docker login --username=$QUAY_HUB_USER --password=$QUAY_HUB_PASS quay.io
   - docker login --username=$GITHUB_HUB_USER --password=$GITHUB_HUB_PASS docker.pkg.github.com
-  - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
 
 build:
   stage: build
@@ -28,8 +27,6 @@ build:
       docker push quay.io/aasaam/whois-json
       docker image tag aasaam/whois-json docker.pkg.github.com/aasaam/whois-json/whois-json
       docker push docker.pkg.github.com/aasaam/whois-json/whois-json
-      docker image tag aasaam/whois-json $CI_REGISTRY/aasaam/whois-json:latest
-      docker push $CI_REGISTRY/aasaam/whois-json:latest
     # remove image
     - docker rmi aasaam/whois-json
   coverage: '/TOTAL_COVERAGE_FOR_CI_F: \d+\.\d+/'
