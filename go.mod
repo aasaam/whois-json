@@ -7,7 +7,7 @@ require (
 	github.com/cpuguy83/go-md2man/v2 v2.0.0 // indirect
 	github.com/gofiber/fiber/v2 v2.12.0
 	github.com/likexian/whois v1.12.1
-	github.com/likexian/whois-parser v1.20.3
+	github.com/likexian/whois-parser v1.20.4
 	github.com/russross/blackfriday/v2 v2.1.0 // indirect
 	github.com/urfave/cli/v2 v2.3.0
 	golang.org/x/net v0.0.0-20210510120150-4163338589ed
