@@ -8,5 +8,5 @@ require (
 	github.com/likexian/whois v1.12.5
 	github.com/likexian/whois-parser v1.22.0
 	github.com/urfave/cli/v2 v2.6.0
-	golang.org/x/net v0.0.0-20210929193557-e81a3d93ecf6
+	golang.org/x/net v0.8.0
 )
